@@ -1,0 +1,30 @@
+.logo {
+    margin: 16px;
+    text-align: center;
+    padding: 10px;
+}
+  
+.site-layout .site-layout-background {
+    background: #fff;
+}
+[data-theme="dark"] .site-layout .site-layout-background {
+    background: #141414;
+}
+
+.user-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    line-height: 20px;
+    padding: 10px 20px 0px;
+}
+
+.user-wrapper small {
+    display: inline-block;
+}
+
+.user-wrapper small span {
+    text-decoration: none;
+    color: red;
+    cursor: pointer;
+}

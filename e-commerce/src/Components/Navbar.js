@@ -3,7 +3,8 @@ import { AiOutlineSearch } from "react-icons/ai";
 import Badge from '@mui/material/Badge';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { Link } from "react-router-dom";
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
+import { persistor } from '../redux/store'
 const Container = styled.div`
     height: 60px;
 `;
@@ -55,7 +56,11 @@ const MenuItem = styled.div`
 
 function Navbar() {
     const quantity = useSelector(state => state.cart.quantity);
-    const currentUser = useSelector(state => state.user.currentUser);
+    const currentUser = useSelector(state => state.auth.currentUser);
+    const handleLogout = () => {
+        persistor.purge();
+        window.location.reload();
+    }
     return (
         <Container>
             <Wrapper>
@@ -68,8 +73,9 @@ function Navbar() {
                 </Left>
                 <Center><Link to="/" style={{cursor: 'pointer', textDecoration: "none", color: "black"}}><Logo>Minastik.</Logo></Link></Center>
                 <Right>
-                    <MenuItem><Link to="/register" style={{textDecoration: "none", color: "black"}}>REGISTER</Link></MenuItem>
-                    <MenuItem><Link to="/login" style={{textDecoration: "none", color: "black"}}>SIGN IN</Link></MenuItem>
+                    {!currentUser &&<MenuItem><Link to="/register" style={{textDecoration: "none", color: "black"}}>REGISTER</Link></MenuItem>}
+                    {!currentUser && <MenuItem><Link to="/login" style={{textDecoration: "none", color: "black"}}>SIGN IN</Link></MenuItem>}
+                    {currentUser && <MenuItem onClick={() => handleLogout()}>LOG OUT</MenuItem>}
                     {currentUser && <MenuItem><Link to="/admin" style={{textDecoration: "none", color: "black"}}>ADMIN</Link></MenuItem>}
                     <MenuItem>
                         <Link to="/cart">

@@ -1,9 +1,8 @@
 import styled from "styled-components";
-import { useState } from 'react';
-import { signup } from '../redux/authAPI';
+import { useState } from "react";
+import { signup } from "../redux/callApi";
 import { DatePicker } from "antd";
 import "./Register.css";
-import "antd/dist/antd.css";
 
 const Container = styled.div`
   width: 100vw;
