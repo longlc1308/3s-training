@@ -47,9 +47,8 @@ class AuthController {
         process.env.PASS_SEC
       );
       const originalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
-      originalPassword !== req.body.password &&
-        res.status(401).json({ message: "Password khong chinh xac" });
-
+      if(originalPassword !== req.body.password)
+        return res.status(400).json({ msg: "Password khong chinh xac" });
       const accessToken = jwt.sign(
         {
           id: user._id,
@@ -58,7 +57,6 @@ class AuthController {
         process.env.JWT_SEC,
         { expiresIn: "1h" }
       );
-
       const { password, ...others } = user._doc;
       res.status(200).json({
         user: { ...others, accessToken },

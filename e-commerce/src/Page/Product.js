@@ -4,9 +4,9 @@ import styled from "styled-components";
 import Footer from "../Components/Footer";
 import Navbar from "../Components/Navbar";
 import { useLocation } from "react-router-dom";
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import NumberFormat from 'react-number-format';
+import { useEffect, useState } from "react";
+import axios from "axios";
+import NumberFormat from "react-number-format";
 import { addProduct } from "../redux/cartRedux";
 import { useDispatch } from "react-redux";
 
@@ -163,13 +163,13 @@ const Product = () => {
   };
   const handleFilterColor = (index, color) => {
     setColor(color);
-    setOldId(index);
-    if(oldId !== index){
+    if(oldId){
       const UnFilterColor = document.getElementById(oldId);
       UnFilterColor.classList.remove("active")
     }
+    setOldId(index);
     let FilterColor = document.getElementById(index);
-    FilterColor.classList.add('active')
+    FilterColor.classList.add('active');
   }
   const HandleQuantity = () => {
     if(quantity > 0) {
@@ -197,7 +197,7 @@ const Product = () => {
             <Filter>
               <FilterTitle>Color</FilterTitle>
               {product.color?.map((color, index) => (
-                <FilterColor id={index} color={color} key={index} onClick={() => handleFilterColor(index, color)}/>
+                <FilterColor id={index} color={color} key={index} onClick={() => handleFilterColor(index.toString(), color)}/>
               ))}
             </Filter>
             <Filter>

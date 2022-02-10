@@ -5,7 +5,6 @@ import Cart from './Page/Cart';
 import './App.css';
 import ScrollToTop from "./ScrollToTop";
 import {
-  BrowserRouter,
   Routes,
   Route,
   Navigate
@@ -13,11 +12,14 @@ import {
 import ProductList from './Page/ProductList';
 import Product from './Page/Product';
 import Admin from './Page/Admin';
+import { useSelector } from 'react-redux';
 
 function App() {
-  const user = false;
+  const user = useSelector(state => state.auth.currentUser);
+  console.log(user);
+
   return (
-    <BrowserRouter>
+    <div>
     <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -28,7 +30,7 @@ function App() {
         <Route path='/products/:brand' element={<ProductList />} />
         <Route path='/product/:id' element={<Product />} />
       </Routes>
-    </BrowserRouter>
+    </div>
   );
 }
 
