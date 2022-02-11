@@ -6,6 +6,8 @@ const { verifyTokenAndAuthorization, verifyTokenAndAdmin } = require('../../midd
 
 route.post('/register', authController.register);
 route.post('/login', authController.login);
+route.put('/forgot-password', authController.forgotPassword);
+route.put('/reset-password/:token', authController.resetPassword);
 route.put('/:id', verifyTokenAndAuthorization, userController.editUser);
 route.delete('/:id', userController.deleteUser);
 route.get('/find/:id',verifyTokenAndAdmin, userController.getUser);

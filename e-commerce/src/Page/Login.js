@@ -45,7 +45,7 @@ const Input = styled.input`
 const Button = styled.button`
   width: 40%;
   border: none;
-  padding: 15px 20px;
+  padding: 10px;
   background-color: teal;
   color: white;
   cursor: pointer;
@@ -75,7 +75,7 @@ const Login = () => {
           <Input placeholder="email" onChange={(e) => setEmail(e.target.value)} />
           <Input placeholder="password" type="password" onChange={(e) => setPassword(e.target.value)}/>
           <Button onClick={handleLogin}>LOGIN</Button>
-          <Aclink>DO NOT YOU REMEMBER THE PASSWORD?</Aclink>
+          <Aclink><Link to="/forgot-password" style={{textDecoration: "none", color: "black"}}>DO NOT YOU REMEMBER THE PASSWORD?</Link></Aclink>
           <Aclink><Link to="/register" style={{textDecoration: "none", color: "black"}}>CREATE A NEW ACCOUNT</Link></Aclink>
         </Form>
       </Wrapper>

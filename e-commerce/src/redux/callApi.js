@@ -24,6 +24,24 @@ export const signup = async (user) => {
   }
 }
 
+export const forgotPassword = async (email) => {
+  try {
+    const res = await axios.put("http://localhost:5000/api/users/forgot-password", email);
+    console.log(res.data)
+  } catch (err) {
+    console.log(err.response.data.msg)
+  }
+}
+
+export const resetPassword = async (token, newPassword) => {
+  try {
+    const res = await axios.put("http://localhost:5000/api/users/forgot-password/" + token, newPassword);
+    console.log(res.data)
+  } catch (err) {
+    console.log(err.response.data.msg)
+  }
+}
+
 export const getUsers = async (dispatch) => {
   dispatch(getUserStart());
   try {
