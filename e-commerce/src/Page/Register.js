@@ -50,7 +50,7 @@ const Agreement = styled.span`
 const ButtonSignUp = styled.button`
   width: 40%;
   border: none;
-  padding: 15px 20px;
+  padding: 10px;
   background-color: teal;
   color: white;
   cursor: pointer;
@@ -64,6 +64,7 @@ const Register = () => {
   const [birthday, setBirthday] = useState('');
   const handleSignup = (e) => {
     e.preventDefault();
+    console.log(birthday);
     signup({ username, email, password });
   }
   return (

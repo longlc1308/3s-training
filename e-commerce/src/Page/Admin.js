@@ -86,7 +86,8 @@ const Admin = () => {
     ];
     const handleLogout = () => {
       persistor.purge();
-      navigate('/')
+      navigate('/');
+      window.location.reload();
     }
     return (
         <Layout style={{ minHeight: '100vh' }}>
