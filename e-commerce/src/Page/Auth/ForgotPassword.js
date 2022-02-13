@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import { forgotPassword } from "../../redux/callApi";
+import { Form, Input, Button } from 'antd';
+import './ForgotPassword.css'
 
 const Container = styled.div`
   width: 100vw;
@@ -27,51 +28,44 @@ const Wrapper = styled.div`
 const Title = styled.h1`
   font-size: 24px;
   font-weight: 300;
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-`;
-
-const Input = styled.input`
-  flex: 1;
-  min-width: 40%;
-  margin: 10px 0;
-  padding: 10px;
-`;
-
-const Button = styled.button`
-  width: 40%;
-  border: none;
-  padding: 10px;
-  background-color: teal;
-  color: white;
-  cursor: pointer;
-  margin-bottom: 10px;
-`;
-
-const Aclink = styled.p`
-  margin: 5px 0px;
-  font-size: 12px;
-  text-decoration: underline;
-  cursor: pointer;
+  text-transform: uppercase;
 `;
 
 const ForgotPassword = () => {
-    const [email, setEmail] = useState('');
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        forgotPassword({email})
-    }
+    const [form] = Form.useForm();
+    const onFinish = (values) => {
+      forgotPassword(values);
+      form.resetFields();
+    };
+  
+    const onFinishFailed = (errorInfo) => {
+      console.log('Failed:', errorInfo);
+    };
     return(
         <Container>
         <Wrapper>
-          <Title>SIGN IN</Title>
-          <Form>
-            <Input placeholder="email" onChange={(e) => setEmail(e.target.value)} />
-            <Button onClick={handleSubmit}>LOGIN</Button>
-            <Aclink><Link to="/login" style={{textDecoration: "none", color: "black"}}>BACK</Link></Aclink>
+          <Title>Forgot Password</Title>
+          <Form
+            form={form}
+            name="basic"
+            initialValues={{ remember: true }}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+          >
+            <Form.Item
+              label="Email"
+              name="email"
+              rules={[{ required: true, message: 'Please input your username!' }]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item>
+            <Button type="primary" htmlType="submit" className="login-form-button">
+              Submit
+            </Button>
+            Or <Link to="/login">Sign in now!</Link>
+          </Form.Item>
           </Form>
         </Wrapper>
       </Container>
