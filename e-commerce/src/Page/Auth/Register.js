@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
-import { signup } from "../redux/callApi";
+import { signup } from "../../redux/callApi";
 import { DatePicker } from "antd";
 import "./Register.css";
 
@@ -72,7 +72,7 @@ const Register = () => {
       <Wrapper>
         <Title>CREATE AN ACCOUNT</Title>
         <Form>
-          <Input placeholder="name" onChange={(e) => setUserName(e.target.value)}  />
+          <Input placeholder="username" onChange={(e) => setUserName(e.target.value)}  />
           <Input placeholder="email" onChange={(e) => setEmail(e.target.value)}  />
           <Input placeholder="password" type="password" onChange={(e) => setPassword(e.target.value)} />
           <DatePicker placeholder="birthday" onChange={(e) => setBirthday(e._d.getDate() + '/' + (e._d.getMonth() + 1) + '/' + e._d.getFullYear())} format={dateFormat}/>

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { login } from "../redux/callApi";
+import { login } from "../../redux/callApi";
 
 const Container = styled.div`
   width: 100vw;

@@ -1,12 +1,25 @@
 import { loginFailure, loginStart, loginSuccess } from './authRedux';
-import { getUserStart, getUserSuccess, getUserFailure } from "./userRedux"
+import { 
+  getUserStart, 
+  getUserSuccess, 
+  getUserFailure, 
+  deleteUserStart, 
+  deleteUserSuccess, 
+  deleteUserFailure,
+  addUserStart,
+  addUserSuccess,
+  addUserFailure,
+  updateUserStart,
+  updateUserSuccess,
+  updateUserFailure
+} from "./userRedux"
 import axios from 'axios';
 
 export const login = async (dispatch, user) => {
     dispatch(loginStart());
   try {
     const res = await axios.post("http://localhost:5000/api/users/login", user);
-    dispatch(loginSuccess(res.data.msg));
+    dispatch(loginSuccess(res.data.user));
   } catch (err) {
     console.log(err.response.data.msg)
     dispatch(loginFailure());
@@ -47,7 +60,39 @@ export const getUsers = async (dispatch) => {
   try {
     const res = await axios.get("http://localhost:5000/api/users");
     dispatch(getUserSuccess(res.data))
-  } catch (error) {
+  } catch (err) {
     dispatch(getUserFailure())
   }
 }
+
+export const deleteUser = async (dispatch, id) => {
+  dispatch(deleteUserStart());
+  try {
+    const res = await axios.delete("http://localhost:5000/api/users/" + id);
+    console.log(res.data);
+    dispatch(deleteUserSuccess(id))
+  } catch (err) {
+    dispatch(deleteUserFailure())
+  }
+}
+
+export const addUser = async (dispatch, user) => {
+  dispatch(addUserStart());
+  try {
+    const res = await axios.post("http://localhost:5000/api/users/register", user);
+    dispatch(addUserSuccess(res.data.user._doc));
+  } catch (err) {
+    dispatch(addUserFailure());
+  }
+};
+
+export const updateUser = async (dispatch, user) => {
+  dispatch(updateUserStart());
+  try {
+    const res = await axios.put("http://localhost:5000/api/users/" + user._id, user);
+    console.log(res.data);
+    dispatch(updateUserSuccess(user));
+  } catch (err) {
+    dispatch(updateUserFailure());
+  }
+};

@@ -1,15 +1,20 @@
 import styled from "styled-components";
 import './Admin.css';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Layout, Menu, Table, Space } from 'antd';
+import { useEffect, useState } from 'react';
+import { Layout, Menu, Space } from 'antd';
 import {
   UserOutlined,
   VideoCameraOutlined,
   UploadOutlined,
 } from '@ant-design/icons';
-import { persistor } from '../redux/store';
+import { persistor } from '../../redux/store';
 import { useNavigate } from 'react-router-dom';
+import UserList from './UserList';
+import User from './User';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUsers, deleteUser, updateUser } from '../../redux/callApi';
+import { Modal, Form, Input } from "antd";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 const { Header, Sider, Content, Footer } = Layout;
 
 
@@ -19,13 +24,6 @@ const Logo = styled.h1`
     font-size: 24px;
 `;
 
-const Title = styled.h1`
-    font-weight: bold;
-`
-
-const Button = styled.a`
-`
-
 const Img = styled.img`
     width: 40px;
     height: 40px;
@@ -34,29 +32,17 @@ const Img = styled.img`
 `
 
 const Admin = () => {
-    const [data, setData] = useState([]);
+    const [dataEdit, setDataEdit] = useState(null);
+    const [edit, setEdit] = useState(false)
+    const dispatch = useDispatch();
     let navigate = useNavigate();
     useEffect(() => {
-        const getUsers = async () => {
-         try {
-             const res = await axios.get('http://localhost:5000/api/users')
-             setData(res.data)
-         } catch (error) {
-             
-         }
-        }
-        getUsers();
-    }, [])
+        getUsers(dispatch);
+    },[dispatch])
     const handleDelUser = async (record) => {
-        try {
-            await axios.delete('http://localhost:5000/api/users/' + record._id);
-            setData((prev) => {
-                return prev.filter((user) => user._id !== record._id)
-            })
-        } catch (error) {
-            
-        }
+      deleteUser(dispatch, record._id)
     }
+    const data = useSelector(state => state.user.users)
     const columns = [
        {
          title: 'Name',
@@ -76,10 +62,15 @@ const Admin = () => {
        {
          title: 'Action',
          key: '4',
-         render: (text, record) => (
+         render: (record) => (
            <Space size="middle">
-             <Button>Edit</Button>
-             <Button onClick={() => handleDelUser(record)}>Delete</Button>
+             <EditOutlined
+              onClick={() => onEditUser(record)}
+            />
+            <DeleteOutlined
+              onClick={() => handleDelUser(record)}
+              style={{ color: "red", marginLeft: 12 }}
+            />
            </Space>
          ),
        },
@@ -89,6 +80,16 @@ const Admin = () => {
       navigate('/');
       window.location.reload();
     }
+
+    const onEditUser = (record) => {
+      setEdit(true);
+      setDataEdit({ ...record });
+    };
+    const resetEditing = () => {
+      setEdit(false);
+      setDataEdit(null);
+    };
+
     return (
         <Layout style={{ minHeight: '100vh' }}>
           <Sider
@@ -126,8 +127,44 @@ const Admin = () => {
                 minHeight: 280,
               }}
             >
-              <Title>Users management</Title>
-              <Table rowKey={obj => obj._id} columns={columns} dataSource={data} />
+              <UserList columns={columns} data={data}/>
+              <User />
+              <Modal
+                title="Edit User"
+                visible={edit}
+                okText="Save"
+                onCancel={() => {
+                  resetEditing();
+                }}
+                onOk={() => {
+                  updateUser(dispatch, dataEdit)
+                  resetEditing();
+                }}
+              >
+                <Form>
+                <Form.Item
+                  label="Username"                >
+                  <Input value={dataEdit?.username}
+                  onChange={(e) => {
+                    setDataEdit((pre) => {
+                      return { ...pre, username: e.target.value };
+                    });
+                  }} />
+                </Form.Item>
+                <Form.Item
+                  label="Email"
+                >
+                <Input
+                  value={dataEdit?.email}
+                  onChange={(e) => {
+                    setDataEdit((pre) => {
+                      return { ...pre, email: e.target.value };
+                    });
+                  }}
+                />
+                </Form.Item>
+                </Form>
+              </Modal>
             </Content>
             <Footer style={{ textAlign: 'center'}}>Ant Design ©2018 Created by Ant UED</Footer>
           </Layout>
