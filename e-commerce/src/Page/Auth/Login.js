@@ -1,8 +1,19 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/callApi";
+import { Form, Input, Button } from 'antd';
+import { MailOutlined, LockOutlined } from '@ant-design/icons';
+import './Login.css'
+
+/* eslint-disable no-template-curly-in-string */
+const validateMessages = {
+  required: '${label} is required!',
+  types: {
+    email: '${label} is not a valid email!',
+  },
+};
+
 
 const Container = styled.div`
   width: 100vw;
@@ -21,62 +32,71 @@ const Container = styled.div`
 
 const Wrapper = styled.div`
   width: 25%;
-  padding: 20px;
+  padding: 25px 25px 20px 0px;
   background-color: white;
 `;
 
 const Title = styled.h1`
   font-size: 24px;
   font-weight: 300;
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-`;
-
-const Input = styled.input`
-  flex: 1;
-  min-width: 40%;
-  margin: 10px 0;
-  padding: 10px;
-`;
-
-const Button = styled.button`
-  width: 40%;
-  border: none;
-  padding: 10px;
-  background-color: teal;
-  color: white;
-  cursor: pointer;
-  margin-bottom: 10px;
-`;
-
-const Aclink = styled.p`
-  margin: 5px 0px;
-  font-size: 12px;
-  text-decoration: underline;
-  cursor: pointer;
+  margin-left: 25px;
 `;
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [form] = Form.useForm();
   const dispatch = useDispatch();
-  const handleLogin = (e) => {
-    e.preventDefault();
-    login(dispatch, { email, password });
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };;
+  const onLogin = async (value) => {
+    login(dispatch, value);
+    form.resetFields();
   }
   return (
     <Container>
       <Wrapper>
         <Title>SIGN IN</Title>
-        <Form>
-          <Input placeholder="email" onChange={(e) => setEmail(e.target.value)} />
-          <Input placeholder="password" type="password" onChange={(e) => setPassword(e.target.value)}/>
-          <Button onClick={handleLogin}>LOGIN</Button>
-          <Aclink><Link to="/forgot-password" style={{textDecoration: "none", color: "black"}}>DO NOT YOU REMEMBER THE PASSWORD?</Link></Aclink>
-          <Aclink><Link to="/register" style={{textDecoration: "none", color: "black"}}>CREATE A NEW ACCOUNT</Link></Aclink>
+        <Form
+          labelCol={{ span: 6 }}
+          form={form}
+          name="normal_login"
+          className="login-form"
+          initialValues={{ remember: true }}
+          onFinish={onLogin}
+          onFinishFailed={onFinishFailed}
+          autoComplete="off"
+          validateMessages={validateMessages}
+        >
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[{ required: true, message: 'Please input your Username!' }]}
+          >
+            <Input prefix={<MailOutlined className="site-form-item-icon" />} placeholder="Email" />
+          </Form.Item>
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[{ required: true, message: 'Please input your Password!' }]}
+          >
+            <Input
+              prefix={<LockOutlined className="site-form-item-icon" />}
+              type="password"
+              placeholder="Password"
+            />
+          </Form.Item>
+          <Form.Item>
+            <Link className="login-form-forgot" to='/forgot-password'>
+              Forgot password
+            </Link>
+          </Form.Item>
+
+          <Form.Item style={{marginLeft: '25px'}}>
+            <Button type="primary" htmlType="submit" className="login-form-button">
+              Log in
+            </Button>
+            Or <Link to="/register">register now!</Link>
+          </Form.Item>
         </Form>
       </Wrapper>
     </Container>

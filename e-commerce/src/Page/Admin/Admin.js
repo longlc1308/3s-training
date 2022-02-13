@@ -13,9 +13,10 @@ import UserList from './UserList';
 import User from './User';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUsers, deleteUser, updateUser } from '../../redux/callApi';
-import { Modal, Form, Input } from "antd";
+import { Modal, Form, Input, Select } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 const { Header, Sider, Content, Footer } = Layout;
+const { Option } = Select;
 
 
 const Logo = styled.h1`
@@ -162,6 +163,23 @@ const Admin = () => {
                     });
                   }}
                 />
+                </Form.Item>
+                <Form.Item
+                  label="Role"
+                >
+                <Select
+                  value={dataEdit?.role}
+                  placeholder="Select a option and change input text above"
+                  onChange={(e) => {
+                    setDataEdit((pre) => {
+                      return { ...pre, role: e.target.value };
+                    });
+                  }}
+                  allowClear
+                >
+                  <Option value="admin">admin</Option>
+                  <Option value="member">member</Option>
+                </Select>
                 </Form.Item>
                 </Form>
               </Modal>

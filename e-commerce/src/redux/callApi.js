@@ -12,30 +12,35 @@ import {
   updateUserStart,
   updateUserSuccess,
   updateUserFailure
-} from "./userRedux"
+} from "./userRedux";
+import { persistor } from './store'
 import axios from 'axios';
 
 export const login = async (dispatch, user) => {
     dispatch(loginStart());
   try {
     const res = await axios.post("http://localhost:5000/api/users/login", user);
-    dispatch(loginSuccess(res.data.user));
+    dispatch(loginSuccess(res.data.user))
+    setTimeout(() => {
+      persistor.purge();
+    }, res.data.expiresIn);
   } catch (err) {
     console.log(err.response.data.msg)
     dispatch(loginFailure());
   }
 }
 
-export const signup = async (user) => {
+// add user or register
+export const addUser = async (dispatch, user) => {
+  dispatch(addUserStart());
   try {
     const res = await axios.post("http://localhost:5000/api/users/register", user);
-    alert(res.data.msg);
+    dispatch(addUserSuccess(res.data.user._doc));
+    alert(res.data.msg)
+  } catch (err) {
+    dispatch(addUserFailure());
   }
-  catch (err) {
-    console.log(err);
-    alert('Error');
-  }
-}
+};
 
 export const forgotPassword = async (email) => {
   try {
@@ -75,16 +80,6 @@ export const deleteUser = async (dispatch, id) => {
     dispatch(deleteUserFailure())
   }
 }
-
-export const addUser = async (dispatch, user) => {
-  dispatch(addUserStart());
-  try {
-    const res = await axios.post("http://localhost:5000/api/users/register", user);
-    dispatch(addUserSuccess(res.data.user._doc));
-  } catch (err) {
-    dispatch(addUserFailure());
-  }
-};
 
 export const updateUser = async (dispatch, user) => {
   dispatch(updateUserStart());
