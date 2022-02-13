@@ -51,9 +51,9 @@ export const forgotPassword = async (email) => {
   }
 }
 
-export const resetPassword = async (token, newPassword) => {
+export const resetPassword = async (token, password) => {
   try {
-    const res = await axios.put("http://localhost:5000/api/users/forgot-password/" + token, newPassword);
+    const res = await axios.put("http://localhost:5000/api/users/forgot-password/" + token, password);
     console.log(res.data)
   } catch (err) {
     console.log(err.response.data.msg)
