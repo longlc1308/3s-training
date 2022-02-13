@@ -37,7 +37,7 @@ class UserController {
                 },
                 { new: true }
               );
-            res.status(200).json(updatedUser)
+            res.status(200).json('User updated successfully')
         } catch (error) {
             res.status(500).json(error)
         }

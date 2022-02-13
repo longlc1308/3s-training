@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { forgotPassword } from "../redux/callApi";
+import { forgotPassword } from "../../redux/callApi";
 
 const Container = styled.div`
   width: 100vw;
