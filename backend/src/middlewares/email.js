@@ -1,5 +1,5 @@
 const sgMail = require("@sendgrid/mail");
-const API_KEY = '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';
+const API_KEY = process.env.SENDGRID_KEY;
 sgMail.setApiKey(API_KEY)
 
 module.exports.sendTemplate = (to, from, templateId, dynamic_template_data) => {

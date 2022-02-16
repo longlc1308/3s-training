@@ -145,6 +145,8 @@ const Product = () => {
      try {
          const res = await axios.get("http://localhost:5000/api/products/find/" + id);
          setProduct(res.data);
+         setColor(res.data.color[0]);
+         setRom(res.data.rom[0]);
      } catch (error) {
          
      }
