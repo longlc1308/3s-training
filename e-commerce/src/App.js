@@ -15,6 +15,7 @@ import Admin from './Page/Admin/Admin';
 import ForgotPassword from './Page/Auth/ForgotPassword';
 import { useSelector } from 'react-redux';
 import ResetPassword from './Page/Auth/ResetPassword';
+import ErrPage from './Page/ErrPage'
 
 function App() {
   const user = useSelector(state => state.auth.currentUser);
@@ -32,6 +33,7 @@ function App() {
         <Route path='/cart' element={<Cart />} />
         <Route path='/products/:brand' element={<ProductList />} />
         <Route path='/product/:id' element={<Product />} />
+        <Route path='/404-not-found' element={<ErrPage />} />
       </Routes>
     </div>
   );

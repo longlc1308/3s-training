@@ -1,0 +1,8 @@
+.detail {
+    cursor: pointer;
+}
+
+.delete {
+    cursor: pointer;
+    margin-left: 20px;
+}

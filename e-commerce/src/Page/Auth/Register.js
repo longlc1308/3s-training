@@ -92,7 +92,7 @@ const Register = () => {
           </Button>
           &nbsp;&nbsp;
           <Button type="danger">
-          <Link to='/login'>Back</Link>
+          <Link to='/'>Back</Link>
           </Button>
         </Form.Item>
       </Form>
